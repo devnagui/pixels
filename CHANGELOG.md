@@ -1,3 +1,8 @@
+## 1.0.4
+
+### Fixes
+ - Fixed unprompted physical dice rolls failing on systems that configure a custom default Roll class, including Daggerheart on Foundry VTT v14, while retaining Foundry VTT v13 compatibility.
+
 ## 1.0.3
 
 ### Improvements

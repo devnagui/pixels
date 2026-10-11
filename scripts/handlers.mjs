@@ -93,7 +93,7 @@ function completeManualRoll(groups) {
   // Create a Roll instance
   const formula = sorted.map(group => `${group.results.length}${group.denomination}`).join(" + ");
   const rollData = {
-    class: "Roll",
+    class: Roll.defaultImplementation.name,
     evaluated: true,
     formula: formula,
     terms: sorted.map(group => {
