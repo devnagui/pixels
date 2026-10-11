@@ -2,6 +2,7 @@
 
 ### Fixes
  - Fixed unprompted physical dice rolls failing on systems that configure a custom default Roll class, including Daggerheart on Foundry VTT v14, while retaining Foundry VTT v13 compatibility.
+ - Fixed heartbeat reconnections accumulating duplicate roll and status listeners until `MaxListenersExceededWarning` was emitted.
 
 ## 1.0.3
 

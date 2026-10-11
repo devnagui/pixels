@@ -94,13 +94,20 @@ export default class PixelsManager extends Map {
    */
   async connect(pixel) {
     const config = this.get(pixel.pixelId) || {};
+    const previousPixel = config.pixel;
 
     // Attempt connection
     await pixel.connect();
 
-    // Activate event handlers
-    config.handleRoll = roll => pendingRoll(config, roll);
-    config.handleStatus = status => handleStatus(config, status);
+    // Activate event handlers without accumulating duplicate listeners on reconnect.
+    config.handleRoll ??= roll => pendingRoll(config, roll);
+    config.handleStatus ??= status => handleStatus(config, status);
+    previousPixel?.removeEventListener("roll", config.handleRoll);
+    previousPixel?.removeEventListener("status", config.handleStatus);
+    if ( pixel !== previousPixel ) {
+      pixel.removeEventListener("roll", config.handleRoll);
+      pixel.removeEventListener("status", config.handleStatus);
+    }
     pixel.addEventListener("roll", config.handleRoll);
     pixel.addEventListener("status", config.handleStatus);
     const denomination = pixel.dieType === "d6pipped" ? "d6" : pixel.dieType;
